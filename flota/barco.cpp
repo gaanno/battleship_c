@@ -1,4 +1,12 @@
+#include <iostream>
 #include "./barco.h"
+#include "../config.h"
+
+std::ostream &operator<<(std::ostream &os, const Barco &b)
+{
+    os << "Nombre: " << b.nombre << ", Letra: " << b.letra << ", Largo: " << b.largo << ", Vida: " << b.vida;
+    return os;
+}
 
 Barco::Barco(std::string nombre, char letra, int largo)
 {
@@ -6,6 +14,13 @@ Barco::Barco(std::string nombre, char letra, int largo)
     this->letra = letra;
     this->largo = largo;
     this->vida = largo;
+}
+Barco::~Barco()
+{
+    if (config::mostrarMensajeExplocionBarco)
+    {
+        std::cout << "Barco " << this->nombre << " hundido, explotado..." << std::endl;
+    }
 }
 
 std::string Barco::obtenerNombre()
@@ -23,9 +38,9 @@ int Barco::obtenerVida()
     return this->vida;
 }
 
-void Barco::quitarVida()
+bool Barco::sobreviveAlDisparo()
 {
-    this->vida -= 1;
+    return --this->vida > 0;
 }
 
 char Barco::obtenerLetra()

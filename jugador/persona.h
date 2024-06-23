@@ -13,7 +13,6 @@ namespace persona
 class Persona
 {
 public:
-    Persona();
     TableroGuerra tableroGuerra;
 
 private:

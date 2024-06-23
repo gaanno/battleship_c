@@ -8,7 +8,11 @@ namespace config
 
     constexpr char letraRelleno = 'O';
     constexpr char letraImpacto = 'X';
+    constexpr char letraAgua = 'A';
+    constexpr char letraInvalida = '?';
     
     constexpr bool revelarLetraImpactoBarco = true;
+    constexpr bool mostrarMensajeExplocionBarco = true;
 }
+
 #endif

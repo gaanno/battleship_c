@@ -2,8 +2,7 @@
 #ifndef TABLERO_GUERRA_H_
 #define TABLERO_GUERRA_H_
 #include "./comun.h"
-#include "../flota/barco.h"
-#include <vector>
+#include "../direccion.h"
 
 namespace guerra
 {
@@ -13,13 +12,15 @@ namespace guerra
 class TableroGuerra : public TableroComun
 {
 public:
-    char disparar(int x, int y); // dispara al tablero
-    void imprimirBarcos();
-
+    char disparar(int x, int y);
 
     TableroGuerra();
 
 private:
-    std::vector<Barco> barcos;
+    void iniciarTableroAutomatico();
+    bool esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
+    void colocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
+
+
 };
 #endif
