@@ -1,7 +1,7 @@
 // tablero en donde se anotan los disparos que he realizado
 #ifndef TABLERO_REGISTRO_H_
 #define TABLERO_REGISTRO_H_
-#include "./comun.h"
+#include "./tablero_comun.h"
 
 namespace registro
 {
@@ -11,7 +11,7 @@ namespace registro
 class TableroRegistro : TableroComun
 {
 public:
-    void marcarDisparo(int x, int y, char impacto); // realiza una marca en el tablero
+    void marcarDisparo(int fila, int columna, char impacto); // realiza una marca en el tablero
 
     TableroRegistro() ;
 };

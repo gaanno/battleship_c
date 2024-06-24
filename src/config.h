@@ -6,9 +6,13 @@ namespace config
 {
     constexpr int tamanoOceano = 10;
 
-    constexpr char letraRelleno = 'O';
+    constexpr char letraRelleno = '.';
     constexpr char letraImpacto = 'X';
+    constexpr char letraAgua = 'W';
+    constexpr char letraInvalida = '?';
     
     constexpr bool revelarLetraImpactoBarco = true;
+    constexpr bool mostrarMensajeExplocionBarco = true;
 }
+
 #endif

@@ -2,8 +2,8 @@
 #define JUGADOR_PERSONA_H_
 
 #include <vector>
-#include "../tablero/guerra.h"
-#include "../tablero/registro.h"
+#include "./tablero_guerra.h"
+#include "./tablero_registro.h"
 
 namespace persona
 {
@@ -13,7 +13,6 @@ namespace persona
 class Persona
 {
 public:
-    Persona();
     TableroGuerra tableroGuerra;
 
 private:
