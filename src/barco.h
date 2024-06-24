@@ -1,5 +1,5 @@
-#ifndef FLOTA_BARCO_H_
-#define FLOTA_BARCO_H_
+#ifndef BARCO_H_
+#define BARCO_H_
 #include <string>
 #include <iostream>
 
