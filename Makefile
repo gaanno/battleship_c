@@ -3,7 +3,7 @@ CC = g++
 CFLAGS = -std=c++2a -I./src
 
 # Especifica solo los archivos .cpp para la compilación
-FILES = src/comun.cpp src/guerra.cpp src/registro.cpp src/persona.cpp src/barco.cpp 
+FILES = src/tablero_comun.cpp src/tablero_guerra.cpp src/tablero_registro.cpp src/persona.cpp src/barco.cpp 
 
 # Nombre del ejecutable
 TARGET = main

@@ -27,6 +27,8 @@ private:
     int largo;
     char letra;
 
+    void quitarVida();
+
     std::string nombre;
 };
 

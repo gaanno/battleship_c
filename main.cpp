@@ -8,10 +8,10 @@ int main()
 {
     int coordenadas[2];
     Persona persona;
+    persona.tableroGuerra.imprimirBarcos();
     while (true)
     {
         cout << persona.tableroGuerra << endl;
-        persona.tableroGuerra.imprimirBarcos();
         cout << "Ingrese fila: ";
         cin >> coordenadas[0];
         cout << "Ingrese columna: ";
@@ -20,7 +20,6 @@ int main()
         {
             persona.tableroGuerra.disparar(coordenadas[0], coordenadas[1]);
         }
-        else
         {
             cout << "Coordenada invalida" << endl;
         }
