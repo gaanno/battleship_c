@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include "../config.h"
-#include "../flota/barco.h"
+#include "./config.h"
+#include "./barco.h"
 
 namespace comun
 {

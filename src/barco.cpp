@@ -1,6 +1,6 @@
 #include <iostream>
 #include "./barco.h"
-#include "../config.h"
+#include "./config.h"
 
 std::ostream &operator<<(std::ostream &os, const Barco &b)
 {

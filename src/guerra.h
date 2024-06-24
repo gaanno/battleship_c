@@ -2,7 +2,7 @@
 #ifndef TABLERO_GUERRA_H_
 #define TABLERO_GUERRA_H_
 #include "./comun.h"
-#include "../direccion.h"
+#include "./direccion.h"
 
 namespace guerra
 {

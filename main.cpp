@@ -1,6 +1,6 @@
 #include <string>
 
-#include "./jugador/persona.h"
+#include "./src/persona.h"
 
 using namespace std;
 

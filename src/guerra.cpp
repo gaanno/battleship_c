@@ -37,8 +37,7 @@ bool TableroGuerra::esPosibleColocarBarco(Barco &barco, int fila, int columna, D
         columnaFin += largo - 1;
     else if (direccion == Direccion::Vertical)
         filaFin += largo - 1;
-    else
-        return false;
+
 
     // Verificar si las coordenadas están dentro del tablero
     if (fila < 0 || fila >= this->tablero.size() || columna < 0 || columna >= this->tablero.size() ||
