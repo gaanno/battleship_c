@@ -1,5 +1,8 @@
 #include "./tablero_comun.h"
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+
 std::ostream &operator<<(std::ostream &os, const TableroComun &b)
 {
     for (const std::vector<char> &fila : b.tablero)
@@ -14,21 +17,46 @@ std::ostream &operator<<(std::ostream &os, const TableroComun &b)
 }
 
 /**
- * @brief Constructor del tablero común
+ * @brief Constructor del tablero, lo inicializa
  */
 TableroComun::TableroComun()
 {
-    this->barcos.push_back(std::make_unique<Barco>("Porta Aviones", 'A', 5));
-    this->barcos.push_back(std::make_unique<Barco>("Buque", 'B', 4));
-    this->barcos.push_back(std::make_unique<Barco>("Submarino", 'S', 3));
-    this->barcos.push_back(std::make_unique<Barco>("Crucero", 'C', 3));
-    this->barcos.push_back(std::make_unique<Barco>("Destructor", 'D', 2));
-
-    // accede al quinto barco
     std::vector<char> fila(config::tamanoOceano, config::letraRelleno);
     for (int i = 0; i < config::tamanoOceano; i++)
     {
         this->tablero.push_back(fila);
+    }
+
+    this->cargarBarcos();
+}
+
+/**
+ * @brief Carga los barcos desde al archivo csv
+ */
+void TableroComun::cargarBarcos()
+{
+    std::ifstream archivo(config::archivoBarcos);
+    std::string linea;
+
+    if (!archivo.is_open())
+    {
+        return;
+    }
+
+    getline(archivo, linea);
+    while (getline(archivo, linea))
+    {
+        std::istringstream ss(linea);
+        std::string nombre;
+        char letra;
+        int largo;
+
+        getline(ss, nombre, ',');
+        ss >> letra;
+        getline(ss, linea); 
+        largo = std::stoi(linea.erase(0,1));
+
+        this->barcos.push_back(std::make_unique<Barco>(nombre, letra, largo));
     }
 }
 

@@ -13,6 +13,8 @@ namespace config
     
     constexpr bool revelarLetraImpactoBarco = true;
     constexpr bool mostrarMensajeExplocionBarco = true;
+
+    constexpr char archivoBarcos[] = "barcos.csv";
 }
 
 #endif
