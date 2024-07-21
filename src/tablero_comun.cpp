@@ -17,7 +17,7 @@ std::ostream &operator<<(std::ostream &os, const TableroComun &b)
             os << i;
         }
 
-        os << '\n';
+        os << "\n";
     }
 
     if (config::mostrarCoordenadasTablero)
@@ -26,7 +26,7 @@ std::ostream &operator<<(std::ostream &os, const TableroComun &b)
         {
             os << i << " ";
         }
-        os << '\n';
+        os << "\n";
     }
 
     return os;
@@ -45,15 +45,21 @@ void TableroComun::imprimirMapa()
  */
 TableroComun::TableroComun()
 {
-    std::vector<char> fila(config::tamanoOceano, config::letraRelleno);
-    for (int i = 0; i < config::tamanoOceano; i++)
+    for (char *fila : this->tablero)
     {
-        this->tablero.push_back(fila);
+        std::fill(fila, fila + config::tamanoOceano, config::letraRelleno);
     }
 
     this->cargarBarcos();
 }
 
+/**
+ * @brief indica si el juego ha terminado cuando no le quedan barcos
+ */
+bool TableroComun::juegoTerminado()
+{
+    return this->barcos.size() == 0;
+}
 /**
  * @brief Carga los barcos desde al archivo csv
  */
@@ -89,14 +95,24 @@ void TableroComun::cargarBarcos()
  */
 void TableroComun::imprimirBarcos()
 {
-    // imprime todos los barcos
-    std::cout << "Barcos:" << std::endl;
     for (auto &barco : this->barcos)
     {
-        std::cout << *barco << std::endl;
+        std::cout << *barco << "\n";
     }
 }
 
+void TableroComun::imprimirBarcosEliminados()
+{
+    if (this->barcosEliminados.size() > 0)
+    {
+        std::cout << "Barcos eliminados: ";
+        for (const std::string barco : barcosEliminados)
+        {
+            std::cout << barco << " ";
+        }
+        std::cout << "\n";
+    }
+}
 /**
  * @brief Aumenta los disparos realizados
  */
@@ -118,7 +134,6 @@ int TableroComun::obtenerDisparosRealizados()
  */
 void TableroComun::marcarDisparo(int fila, int columna, char impacto)
 {
-    // marca un disparo en el tablero
     this->tablero[fila][columna] = impacto;
 }
 
@@ -129,10 +144,8 @@ void TableroComun::marcarDisparo(int fila, int columna, char impacto)
  */
 bool TableroComun::esPosicionValida(int fila, int columna)
 {
-    return fila >= 0 &&
-           fila < config::tamanoOceano &&
-           columna >= 0 &&
-           columna < config::tamanoOceano;
+    return fila >= 0 && fila < config::tamanoOceano &&
+           columna >= 0 && columna < config::tamanoOceano;
 }
 
 /**
@@ -142,16 +155,16 @@ bool TableroComun::esPosicionValida(int fila, int columna)
  * @param filaFin Fila final
  * @param columnaFin Columna final
  */
-bool TableroComun::esRanurasVacia(int fila, int columna, int filaFin, int columnaFin)
+bool TableroComun::sonRanurasVacias(int fila, int columna, int filaFin, int columnaFin)
 {
     return std::all_of(
-        this->tablero.begin() + fila,
-        this->tablero.begin() + filaFin + 1,
+        std::begin(this->tablero) + fila,
+        std::begin(this->tablero) + filaFin + 1,
         [this, columna, columnaFin](const auto &fila)
         {
             return std::all_of(
-                fila.begin() + columna,
-                fila.begin() + columnaFin + 1,
+                std::begin(fila) + columna,
+                std::begin(fila) + columnaFin + 1,
                 [this](const auto &celda)
                 {
                     return celda == config::letraRelleno;
