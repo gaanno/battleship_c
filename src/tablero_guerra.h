@@ -2,7 +2,6 @@
 #ifndef TABLERO_GUERRA_H_
 #define TABLERO_GUERRA_H_
 #include "./tablero_comun.h"
-#include "./enum/direccion.h"
 
 namespace guerra
 {
@@ -18,7 +17,6 @@ public:
 
 private:
     void iniciarTableroAutomatico();
-    bool esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
     void colocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
 
 

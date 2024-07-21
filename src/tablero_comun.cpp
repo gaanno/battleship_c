@@ -33,9 +33,9 @@ std::ostream &operator<<(std::ostream &os, const TableroComun &b)
 }
 
 /**
- * @brief Imprime el mapa
+ * @brief Imprime el tablero
  */
-void TableroComun::imprimirMapa()
+void TableroComun::imprimirTablero()
 {
     std::cout << *this;
 }
@@ -149,6 +149,49 @@ bool TableroComun::esPosicionValida(int fila, int columna)
 }
 
 /**
+ * @brief Verifica si es posible colocar un barco en el tablero
+ * @param barco Barco a colocar
+ * @param fila Fila de inicio
+ * @param columna Columna de inicio
+ * @param direccion Dirección del barco
+ * @return true si es posible, false si no
+ */
+bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
+{
+    int largo = barco.obtenerLargo();
+    int filaFin;
+    int columnaFin;
+    
+    if (direccion == Direccion::Derecha)
+    {
+        filaFin = fila;
+        columnaFin = columna + largo -1;
+    }
+    else if (direccion == Direccion::Izquierda)
+    {
+        filaFin = fila;
+        columnaFin = columna - largo +1;
+    }
+    else if (direccion == Direccion::Arriba)
+    {
+        filaFin = fila - largo+1;
+        columnaFin = columna ;
+    }
+    else if (direccion == Direccion::Abajo)
+    {
+        filaFin = fila + largo-1;
+        columnaFin = columna;
+    }
+    // Verificar si las coordenadas están dentro del tablero
+    if (!this->esPosicionValida(fila, columna) || !this->esPosicionValida(filaFin, columnaFin))
+    {
+        return false;
+    }
+
+    return this->sonRanurasVacias(fila, columna, filaFin, columnaFin);
+}
+
+/**
  * @brief Verifica si las ranuras están vacías
  * @param fila Fila de inicio
  * @param columna Columna de inicio
@@ -157,6 +200,14 @@ bool TableroComun::esPosicionValida(int fila, int columna)
  */
 bool TableroComun::sonRanurasVacias(int fila, int columna, int filaFin, int columnaFin)
 {
+    if (filaFin < fila)
+    {
+        std::swap(fila, filaFin);
+    }
+    if (columnaFin < columna)
+    {
+        std::swap(columna, columnaFin);
+    }
     return std::all_of(
         std::begin(this->tablero) + fila,
         std::begin(this->tablero) + filaFin + 1,

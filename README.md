@@ -12,9 +12,10 @@ Proyecto para recordar lo básico y no tan básico de c++ usando clases
 
 # TO DO
 - Ajustar formato de coordenadas a letra, num
-- Mapa de calor
+- tablero de calor
 - Hebras
 - Implementar socket
 - GUI
 - Mejorar código
+- Excepciones? tal vez
 - lo que siga...

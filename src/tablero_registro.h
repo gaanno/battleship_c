@@ -2,15 +2,25 @@
 #ifndef TABLERO_REGISTRO_H_
 #define TABLERO_REGISTRO_H_
 #include "./tablero_comun.h"
-#include "./mapa_calor.h"
+
 namespace registro
 {
     class TableroRegistro;
 }
 
-class TableroRegistro : TableroComun
+class TableroRegistro : public TableroComun
 {
 public:
     TableroRegistro() : TableroComun() {};
+    int obtenerMejoresDisparos();
+
+        void marcarDisparo(int fila, int columna, char impacto);
+
+    void imprimirTableroCalor();
+
+private:
+    void calcularTableroCalor();
+    int tableroCalor[config::tamanoOceano][config::tamanoOceano];
+
 };
 #endif

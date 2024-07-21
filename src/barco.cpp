@@ -33,7 +33,7 @@ Barco::~Barco()
 {
     if (config::mostrarMensajeBarcoExplotado)
     {
-        std::cout << "Barco " << this->nombre << " hundido, explotado..." << std::endl;
+        std::cout << "Barco " << this->nombre << " hundido, explotado..." << "\n";
     }
 }
 

@@ -7,8 +7,10 @@ namespace direccion
 
 enum class Direccion
 {
-    Horizontal,
-    Vertical
+    Izquierda,
+    Derecha,
+    Arriba,
+    Abajo
 };
 
 #endif

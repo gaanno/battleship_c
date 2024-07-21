@@ -5,6 +5,7 @@
 #include <memory>
 #include "./config.h"
 #include "./barco.h"
+#include "./enum/direccion.h"
 
 
 namespace comun
@@ -19,7 +20,7 @@ public:
     
     int obtenerDisparosRealizados();
     
-    void imprimirMapa();
+    void imprimirTablero();
     void imprimirBarcos();
     void marcarDisparo(int fila, int columna, char impacto);
     void imprimirBarcosEliminados();
@@ -29,6 +30,7 @@ public:
 
 protected:
     bool esPosicionValida(int fila, int columna);
+    bool esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
     
     char tablero[config::tamanoOceano][config::tamanoOceano];
 

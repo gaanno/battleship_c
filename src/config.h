@@ -10,9 +10,9 @@ namespace config
     constexpr char letraImpacto = 'X';
     constexpr char letraAgua = 'W';
     
-    constexpr bool revelarLetraImpactoBarco = true;
-    constexpr bool mostrarMensajeBarcoExplotado = true;
-    constexpr bool mostrarCoordenadasTablero = true;
+    constexpr bool mostrarLetraImpactoBarco = false;
+    constexpr bool mostrarMensajeBarcoExplotado = false;
+    constexpr bool mostrarCoordenadasTablero = false;
     
     constexpr char archivoBarcos[] = "barcos.csv";
 }
