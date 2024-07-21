@@ -11,7 +11,7 @@ TARGET = main
 all: $(TARGET)
 
 $(TARGET): $(FILES) main.cpp
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ -fopenmp
 
 clean:
 	rm -f $(TARGET)

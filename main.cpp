@@ -14,24 +14,26 @@ using namespace std;
 int main()
 {
     int coordenadas[2];
-    Persona persona;
+    Persona persona[2];
     char letraDisparo; 
-    while (!persona.tableroGuerra.juegoTerminado())
+    while (!persona[0].tableroGuerra.juegoTerminado())
     {
-        // system(clear);
-        // persona.tableroGuerra.imprimirBarcosEliminados();
-        // persona.tableroGuerra.imprimirBarcos();
-        cout << "disparos Realizados: " << persona.tableroGuerra.obtenerDisparosRealizados() << endl;
-        // persona.tableroGuerra.imprimirTablero();
-        cout << "letra ultimo disparo: " << letraDisparo <<endl;
+        system(clear);
+        // persona[0].tableroGuerra.imprimirBarcosEliminados();
+        // persona[0].tableroGuerra.imprimirBarcos();
+        // cout << "disparos Realizados: " << persona[0].tableroGuerra.obtenerDisparosRealizados() << endl;
+        // cout << "letra ultimo disparo: " << letraDisparo <<endl;
+        persona[1].tableroGuerra.imprimirTablero();
+        cout << endl;
+        persona[0].tableroRegistro.imprimirTablero();
+        cout << endl;
+        persona[0].tableroRegistro.imprimirTableroCalor();
         cout << "Ingrese fila: ";
         cin >> coordenadas[0];
         cout << "Ingrese columna: ";
         cin >> coordenadas[1];
-        letraDisparo = persona.tableroGuerra.disparar(coordenadas[0], coordenadas[1]);
-        persona.tableroRegistro.marcarDisparo(coordenadas[0], coordenadas[1], letraDisparo);
-        persona.tableroRegistro.imprimirTablero();
-        persona.tableroRegistro.imprimirTableroCalor();
+        letraDisparo = persona[1].tableroGuerra.disparar(coordenadas[0], coordenadas[1]);
+        persona[0].tableroRegistro.marcarDisparo(coordenadas[0], coordenadas[1], letraDisparo);
     }
     return 0;
 }

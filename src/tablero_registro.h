@@ -11,7 +11,7 @@ namespace registro
 class TableroRegistro : public TableroComun
 {
 public:
-    TableroRegistro() : TableroComun() {};
+    TableroRegistro();
     int obtenerMejoresDisparos();
 
         void marcarDisparo(int fila, int columna, char impacto);
