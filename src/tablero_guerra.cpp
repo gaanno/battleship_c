@@ -16,46 +16,43 @@ TableroGuerra::TableroGuerra() : TableroComun()
  * @brief Dispara a una posición del tablero eliminando al barco si se muere
  * @param fila Posición fila
  * @param columna Posición columna
- * @return Letra del barco si config::revelarLetraImpactoBarco es true, si no, retorna X
+ * @return Letra del barco si config::mostrarLetraImpactoBarco es true, si no, retorna X
  *
  */
 char TableroGuerra::disparar(int fila, int columna)
 {
+    this->aumentarDisparosRealizados();
+
+    if (!this->esPosicionValida(fila, columna))
+    {
+        return config::letraAgua;
+    }
+
     const char letra = this->tablero[fila][columna];
+
+    if (letra == config::letraRelleno || letra == config::letraAgua)
+    {
+        this->marcarDisparo(fila, columna, config::letraAgua);
+        return config::letraAgua;
+    }
 
     this->marcarDisparo(fila, columna, config::letraImpacto);
     this->barcos.erase(
         std::remove_if(
             this->barcos.begin(),
             this->barcos.end(),
-            [letra](const std::unique_ptr<Barco> &barco)
-            { return barco->obtenerLetra() == letra && !barco->sobreviveAlDisparo(); }),
+            [this, letra](const std::unique_ptr<Barco> &barco)
+            {
+                if (barco->obtenerLetra() == letra && !barco->sobreviveAlDisparo())
+                {
+                    this->barcosEliminados.push_back(barco->obtenerNombre());
+                    return true;
+                }
+                return false;
+            }),
         this->barcos.end());
 
-    return config::revelarLetraImpactoBarco ? letra : config::letraImpacto;
-}
-
-/**
- * @brief Verifica si es posible colocar un barco en el tablero
- * @param barco Barco a colocar
- * @param fila Fila de inicio
- * @param columna Columna de inicio
- * @param direccion Dirección del barco
- * @return true si es posible, false si no
- */
-bool TableroGuerra::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
-{
-    int largo = barco.obtenerLargo();
-    int filaFin = (direccion == Direccion::Vertical) ? fila + largo - 1 : fila;
-    int columnaFin = (direccion == Direccion::Horizontal) ? columna + largo - 1 : columna;
-
-    // Verificar si las coordenadas están dentro del tablero
-    if (!this->esPosicionValida(fila, columna) || !this->esPosicionValida(filaFin, columnaFin))
-    {
-        return false;
-    }
-
-    return this->esRanurasVacia(fila, columna, filaFin, columnaFin);
+    return config::mostrarLetraImpactoBarco ? letra : config::letraImpacto;
 }
 
 /**
@@ -74,7 +71,7 @@ void TableroGuerra::iniciarTableroAutomatico()
         {
             int fila = rand() % config::tamanoOceano;
             int columna = rand() % config::tamanoOceano;
-            Direccion direccion = static_cast<Direccion>(rand() % 2);
+            Direccion direccion = static_cast<Direccion>(rand() % 4);
             coordenadasValidas = esPosibleColocarBarco(barco, fila, columna, direccion);
             if (coordenadasValidas)
             {
@@ -89,13 +86,30 @@ void TableroGuerra::iniciarTableroAutomatico()
  * @param barco Barco a colocar
  * @param fila Fila de inicio
  * @param columna Columna de inicio
- * @param direccion Dirección del barco
+ * @param Dirección del barco
  */
 void TableroGuerra::colocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
 {
     int largo = barco.obtenerLargo();
-    int deltaFila = (direccion == Direccion::Vertical) ? 1 : 0;
-    int deltaColumna = (direccion == Direccion::Horizontal) ? 1 : 0;
+    // int deltaFila = (direccion == Direccion::Vertical) ? 1 : 0;
+    int deltaFila = 0;
+    int deltaColumna = 0;
+    if (direccion == Direccion::Derecha)
+    {
+        deltaColumna = 1;
+    }
+    else if (direccion == Direccion::Izquierda)
+    {
+        deltaColumna = -1;
+    }
+    else if (direccion == Direccion::Arriba)
+    {
+        deltaFila = -1;
+    }
+    else if (direccion == Direccion::Abajo)
+    {
+        deltaFila = 1;
+    }
 
     for (int i = 0; i < barco.obtenerLargo(); ++i)
     {

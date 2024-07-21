@@ -2,11 +2,19 @@ YABG-JFLCB
 Yet Another Battleship Game - Just For Learn C++ Basics
 
 #
-Proyecto para recordar lo básico de c++ usando clases
+Proyecto para recordar lo básico y no tan básico de c++ usando clases
+
+# DO
+- Cargado csv
+- Tableros
+- tablero de calor
+
 
 # TO DO
-- Mapa de calor
+- Ajustar formato de coordenadas a letra, num
+- Hebras
 - Implementar socket
-- Mejorar código
 - GUI
+- Mejorar código
+- Excepciones? tal vez
 - lo que siga...

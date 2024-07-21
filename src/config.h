@@ -1,6 +1,6 @@
 // Ajustes generales del juego
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef CONFIG_H_
+#define CONFIG_H_
 
 namespace config
 {
@@ -9,10 +9,12 @@ namespace config
     constexpr char letraRelleno = '.';
     constexpr char letraImpacto = 'X';
     constexpr char letraAgua = 'W';
-    constexpr char letraInvalida = '?';
     
-    constexpr bool revelarLetraImpactoBarco = true;
-    constexpr bool mostrarMensajeExplocionBarco = true;
+    constexpr bool mostrarLetraImpactoBarco = false;
+    constexpr bool mostrarMensajeBarcoExplotado = false;
+    constexpr bool mostrarCoordenadasTablero = false;
+    
+    constexpr char archivoBarcos[] = "barcos.csv";
 }
 
 #endif

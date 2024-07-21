@@ -8,11 +8,19 @@ namespace registro
     class TableroRegistro;
 }
 
-class TableroRegistro : TableroComun
+class TableroRegistro : public TableroComun
 {
 public:
-    void marcarDisparo(int fila, int columna, char impacto); // realiza una marca en el tablero
+    TableroRegistro() : TableroComun() {};
+    int obtenerMejoresDisparos();
 
-    TableroRegistro() ;
+        void marcarDisparo(int fila, int columna, char impacto);
+
+    void imprimirTableroCalor();
+
+private:
+    void calcularTableroCalor();
+    int tableroCalor[config::tamanoOceano][config::tamanoOceano];
+
 };
 #endif

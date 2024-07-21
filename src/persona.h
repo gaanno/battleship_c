@@ -1,5 +1,5 @@
-#ifndef JUGADOR_PERSONA_H_
-#define JUGADOR_PERSONA_H_
+#ifndef PERSONA_H_
+#define PERSONA_H_
 
 #include <vector>
 #include "./tablero_guerra.h"
@@ -14,6 +14,7 @@ class Persona
 {
 public:
     TableroGuerra tableroGuerra;
+    TableroRegistro tableroRegistro;
 
 private:
 

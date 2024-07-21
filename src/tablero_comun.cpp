@@ -1,34 +1,92 @@
 #include "./tablero_comun.h"
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+
 std::ostream &operator<<(std::ostream &os, const TableroComun &b)
 {
-    for (const std::vector<char> &fila : b.tablero)
+    for (int i = 0; i < config::tamanoOceano; ++i)
     {
-        for (const char &celda : fila)
+        for (int j = 0; j < config::tamanoOceano; ++j)
         {
-            os << celda << " ";
+            os << b.tablero[i][j] << " ";
         }
-        os << std::endl;
+
+        if (config::mostrarCoordenadasTablero)
+        {
+            os << i;
+        }
+
+        os << "\n";
     }
+
+    if (config::mostrarCoordenadasTablero)
+    {
+        for (int i = 0; i < config::tamanoOceano; ++i)
+        {
+            os << i << " ";
+        }
+        os << "\n";
+    }
+
     return os;
 }
 
 /**
- * @brief Constructor del tablero común
+ * @brief Imprime el tablero
+ */
+void TableroComun::imprimirTablero()
+{
+    std::cout << *this;
+}
+
+/**
+ * @brief Constructor del tablero, lo inicializa
  */
 TableroComun::TableroComun()
 {
-    this->barcos.push_back(std::make_unique<Barco>("Porta Aviones", 'A', 5));
-    this->barcos.push_back(std::make_unique<Barco>("Buque", 'B', 4));
-    this->barcos.push_back(std::make_unique<Barco>("Submarino", 'S', 3));
-    this->barcos.push_back(std::make_unique<Barco>("Crucero", 'C', 3));
-    this->barcos.push_back(std::make_unique<Barco>("Destructor", 'D', 2));
-
-    // accede al quinto barco
-    std::vector<char> fila(config::tamanoOceano, config::letraRelleno);
-    for (int i = 0; i < config::tamanoOceano; i++)
+    for (char *fila : this->tablero)
     {
-        this->tablero.push_back(fila);
+        std::fill(fila, fila + config::tamanoOceano, config::letraRelleno);
+    }
+
+    this->cargarBarcos();
+}
+
+/**
+ * @brief indica si el juego ha terminado cuando no le quedan barcos
+ */
+bool TableroComun::juegoTerminado()
+{
+    return this->barcos.size() == 0;
+}
+/**
+ * @brief Carga los barcos desde al archivo csv
+ */
+void TableroComun::cargarBarcos()
+{
+    std::ifstream archivo(config::archivoBarcos);
+    std::string linea;
+
+    if (!archivo.is_open())
+    {
+        return;
+    }
+
+    getline(archivo, linea);
+    while (getline(archivo, linea))
+    {
+        std::istringstream ss(linea);
+        std::string nombre;
+        char letra;
+        int largo;
+
+        getline(ss, nombre, ',');
+        ss >> letra;
+        getline(ss, linea);
+        largo = std::stoi(linea.erase(0, 1));
+
+        this->barcos.push_back(std::make_unique<Barco>(nombre, letra, largo));
     }
 }
 
@@ -37,11 +95,38 @@ TableroComun::TableroComun()
  */
 void TableroComun::imprimirBarcos()
 {
-    // imprime todos los barcos
     for (auto &barco : this->barcos)
     {
-        std::cout << *barco << std::endl;
+        std::cout << *barco << "\n";
     }
+}
+
+void TableroComun::imprimirBarcosEliminados()
+{
+    if (this->barcosEliminados.size() > 0)
+    {
+        std::cout << "Barcos eliminados: ";
+        for (const std::string barco : barcosEliminados)
+        {
+            std::cout << barco << " ";
+        }
+        std::cout << "\n";
+    }
+}
+/**
+ * @brief Aumenta los disparos realizados
+ */
+void TableroComun::aumentarDisparosRealizados()
+{
+    this->disparosRealizados++;
+}
+
+/*
+ * @brief Obtiene los disparos realizados
+ */
+int TableroComun::obtenerDisparosRealizados()
+{
+    return this->disparosRealizados;
 }
 
 /**
@@ -49,8 +134,6 @@ void TableroComun::imprimirBarcos()
  */
 void TableroComun::marcarDisparo(int fila, int columna, char impacto)
 {
-    // marca un disparo en el tablero
-    this->disparosRealizados++;
     this->tablero[fila][columna] = impacto;
 }
 
@@ -61,7 +144,47 @@ void TableroComun::marcarDisparo(int fila, int columna, char impacto)
  */
 bool TableroComun::esPosicionValida(int fila, int columna)
 {
-    return fila >= 0 && fila < this->tablero.size() && columna >= 0 && columna < this->tablero[0].size();
+    return fila >= 0 && fila < config::tamanoOceano &&
+           columna >= 0 && columna < config::tamanoOceano;
+}
+
+/**
+ * @brief Verifica si es posible colocar un barco en el tablero
+ * @param barco Barco a colocar
+ * @param fila Fila de inicio
+ * @param columna Columna de inicio
+ * @param direccion Dirección del barco
+ * @return true si es posible, false si no
+ */
+bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
+{
+    int largo = barco.obtenerLargo() -1;
+    int filaFin = fila;
+    int columnaFin = columna;
+
+    switch (direccion)
+    {
+    case Direccion::Derecha:
+        columnaFin += largo;
+        break;
+    case Direccion::Izquierda:
+        columnaFin -= largo;
+        break;
+    case Direccion::Arriba:
+        filaFin -= largo;
+        break;
+    case Direccion::Abajo:
+        filaFin += largo;
+        break;
+    }
+    
+    // Verificar si las coordenadas están dentro del tablero
+    if (!this->esPosicionValida(fila, columna) || !this->esPosicionValida(filaFin, columnaFin))
+    {
+        return false;
+    }
+
+    return this->sonRanurasVacias(fila, columna, filaFin, columnaFin);
 }
 
 /**
@@ -71,16 +194,24 @@ bool TableroComun::esPosicionValida(int fila, int columna)
  * @param filaFin Fila final
  * @param columnaFin Columna final
  */
-bool TableroComun::esRanurasVacia(int fila, int columna, int filaFin, int columnaFin)
+bool TableroComun::sonRanurasVacias(int fila, int columna, int filaFin, int columnaFin)
 {
+    if (filaFin < fila)
+    {
+        std::swap(fila, filaFin);
+    }
+    if (columnaFin < columna)
+    {
+        std::swap(columna, columnaFin);
+    }
     return std::all_of(
-        this->tablero.begin() + fila,
-        this->tablero.begin() + filaFin + 1,
+        std::begin(this->tablero) + fila,
+        std::begin(this->tablero) + filaFin + 1,
         [this, columna, columnaFin](const auto &fila)
         {
             return std::all_of(
-                fila.begin() + columna,
-                fila.begin() + columnaFin + 1,
+                std::begin(fila) + columna,
+                std::begin(fila) + columnaFin + 1,
                 [this](const auto &celda)
                 {
                     return celda == config::letraRelleno;
