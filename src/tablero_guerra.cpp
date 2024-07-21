@@ -21,6 +21,12 @@ TableroGuerra::TableroGuerra() : TableroComun()
  */
 char TableroGuerra::disparar(int fila, int columna)
 {
+    this->aumentarDisparosRealizados();
+    
+    if(!this->esPosicionValida(fila, columna))
+    {
+        return config::letraAgua;
+    }
     const char letra = this->tablero[fila][columna];
 
     this->marcarDisparo(fila, columna, config::letraImpacto);

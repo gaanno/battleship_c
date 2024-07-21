@@ -4,11 +4,17 @@ Yet Another Battleship Game - Just For Learn C++ Basics
 #
 Proyecto para recordar lo básico y no tan básico de c++ usando clases
 
-# TO DO
+# DO
+- Cargado csv
+- Tableros
+- 
 
+
+# TO DO
+- Ajustar formato de coordenadas a letra, num
 - Mapa de calor
 - Hebras
 - Implementar socket
-- Mejorar código
 - GUI
+- Mejorar código
 - lo que siga...

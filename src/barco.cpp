@@ -2,6 +2,9 @@
 #include "./barco.h"
 #include "./config.h"
 
+/**
+ * @brief Sobrecarga del operador de salida
+ */
 std::ostream &operator<<(std::ostream &os, const Barco &b)
 {
     os << "Nombre: " << b.nombre << ", Letra: " << b.letra << ", Largo: " << b.largo << ", Vida: " << b.vida;
@@ -23,12 +26,12 @@ Barco::Barco(std::string nombre, char letra, int largo)
 }
 
 /**
- * @brief Destructor del barco. 
- * Muestra un mensaje si config::mostrarMensajeExplocionBarco es true
+ * @brief Destructor del barco.
+ * Muestra un mensaje si config::mostrarMensajeBarcoExplotado es true
  */
 Barco::~Barco()
 {
-    if (config::mostrarMensajeExplocionBarco)
+    if (config::mostrarMensajeBarcoExplotado)
     {
         std::cout << "Barco " << this->nombre << " hundido, explotado..." << std::endl;
     }
@@ -67,11 +70,15 @@ void Barco::quitarVida()
 }
 
 /**
- * @brief Le quita vida al barco columna verifica si sobrevive al disparo al disparo
+ * @brief Le quita vida al barco y verifica si sobrevive al disparo
  *
  */
 bool Barco::sobreviveAlDisparo()
 {
+    if (this->vida <= 0)
+    {
+        return false;
+    }
     this->quitarVida();
     return this->vida > 0;
 }

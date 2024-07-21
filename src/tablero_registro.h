@@ -2,7 +2,7 @@
 #ifndef TABLERO_REGISTRO_H_
 #define TABLERO_REGISTRO_H_
 #include "./tablero_comun.h"
-
+#include "./mapa_calor.h"
 namespace registro
 {
     class TableroRegistro;
@@ -11,8 +11,6 @@ namespace registro
 class TableroRegistro : TableroComun
 {
 public:
-    void marcarDisparo(int fila, int columna, char impacto); // realiza una marca en el tablero
-
-    TableroRegistro() ;
+    TableroRegistro() : TableroComun() {};
 };
 #endif

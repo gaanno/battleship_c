@@ -1,7 +1,5 @@
-#ifndef DIRECCION_H
-#define DIRECCION_H
-#include <iostream>
-#include <random>
+#ifndef DIRECCION_H_
+#define DIRECCION_H_
 namespace direccion
 {
     class Direccion;

@@ -1,13 +1,8 @@
-// comun barco
-
 #ifndef TABLERO_COMUN_H_
 #define TABLERO_COMUN_H_
 
 #include <vector>
-#include <iostream>
 #include <memory>
-#include <vector>
-
 #include "./config.h"
 #include "./barco.h"
 
@@ -22,21 +17,26 @@ class TableroComun
 public:
     TableroComun();
     
-    int disparosRealizados = 0;
-
-    void imprimirBarcos();
+    int obtenerDisparosRealizados();
+    
     bool esPosicionValida(int fila, int columna);
+    
+    void imprimirMapa();
+    void imprimirBarcos();
+    void marcarDisparo(int fila, int columna, char impacto);
 
     friend std::ostream &operator<<(std::ostream &os, const TableroComun &b);
 
 protected:
+    
     std::vector<std::unique_ptr<Barco>> barcos;
     std::vector<std::vector<char>> tablero;
 
-    void marcarDisparo(int fila, int columna, char impacto);
+    void aumentarDisparosRealizados();
     bool esRanurasVacia(int fila, int columna, int filaFin, int columnaFin);
 
 private:
+    int disparosRealizados = 0;
     void cargarBarcos();
 };
 

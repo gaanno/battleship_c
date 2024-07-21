@@ -2,7 +2,7 @@
 #ifndef TABLERO_GUERRA_H_
 #define TABLERO_GUERRA_H_
 #include "./tablero_comun.h"
-#include "./direccion.h"
+#include "./enum/direccion.h"
 
 namespace guerra
 {
@@ -12,9 +12,9 @@ namespace guerra
 class TableroGuerra : public TableroComun
 {
 public:
-    char disparar(int fila, int columna);
-
     TableroGuerra();
+
+    char disparar(int fila, int columna);
 
 private:
     void iniciarTableroAutomatico();

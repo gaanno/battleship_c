@@ -5,15 +5,39 @@
 
 std::ostream &operator<<(std::ostream &os, const TableroComun &b)
 {
-    for (const std::vector<char> &fila : b.tablero)
+    for (int i = 0; i < config::tamanoOceano; ++i)
     {
-        for (const char &celda : fila)
+        for (int j = 0; j < config::tamanoOceano; ++j)
         {
-            os << celda << " ";
+            os << b.tablero[i][j] << " ";
         }
-        os << std::endl;
+
+        if (config::mostrarCoordenadasTablero)
+        {
+            os << i;
+        }
+
+        os << '\n';
     }
+
+    if (config::mostrarCoordenadasTablero)
+    {
+        for (int i = 0; i < config::tamanoOceano; ++i)
+        {
+            os << i << " ";
+        }
+        os << '\n';
+    }
+
     return os;
+}
+
+/**
+ * @brief Imprime el mapa
+ */
+void TableroComun::imprimirMapa()
+{
+    std::cout << *this;
 }
 
 /**
@@ -53,8 +77,8 @@ void TableroComun::cargarBarcos()
 
         getline(ss, nombre, ',');
         ss >> letra;
-        getline(ss, linea); 
-        largo = std::stoi(linea.erase(0,1));
+        getline(ss, linea);
+        largo = std::stoi(linea.erase(0, 1));
 
         this->barcos.push_back(std::make_unique<Barco>(nombre, letra, largo));
     }
@@ -66,10 +90,27 @@ void TableroComun::cargarBarcos()
 void TableroComun::imprimirBarcos()
 {
     // imprime todos los barcos
+    std::cout << "Barcos:" << std::endl;
     for (auto &barco : this->barcos)
     {
         std::cout << *barco << std::endl;
     }
+}
+
+/**
+ * @brief Aumenta los disparos realizados
+ */
+void TableroComun::aumentarDisparosRealizados()
+{
+    this->disparosRealizados++;
+}
+
+/*
+ * @brief Obtiene los disparos realizados
+ */
+int TableroComun::obtenerDisparosRealizados()
+{
+    return this->disparosRealizados;
 }
 
 /**
@@ -78,7 +119,6 @@ void TableroComun::imprimirBarcos()
 void TableroComun::marcarDisparo(int fila, int columna, char impacto)
 {
     // marca un disparo en el tablero
-    this->disparosRealizados++;
     this->tablero[fila][columna] = impacto;
 }
 
@@ -89,7 +129,10 @@ void TableroComun::marcarDisparo(int fila, int columna, char impacto)
  */
 bool TableroComun::esPosicionValida(int fila, int columna)
 {
-    return fila >= 0 && fila < this->tablero.size() && columna >= 0 && columna < this->tablero[0].size();
+    return fila >= 0 &&
+           fila < config::tamanoOceano &&
+           columna >= 0 &&
+           columna < config::tamanoOceano;
 }
 
 /**

@@ -14,6 +14,7 @@ class Persona
 {
 public:
     TableroGuerra tableroGuerra;
+    TableroRegistro tableroRegistro;
 
 private:
 
