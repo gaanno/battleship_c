@@ -7,12 +7,11 @@ Proyecto para recordar lo básico y no tan básico de c++ usando clases
 # DO
 - Cargado csv
 - Tableros
-- 
+- tablero de calor
 
 
 # TO DO
 - Ajustar formato de coordenadas a letra, num
-- tablero de calor
 - Hebras
 - Implementar socket
 - GUI
