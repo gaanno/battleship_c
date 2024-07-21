@@ -92,27 +92,23 @@ void TableroGuerra::colocarBarco(Barco &barco, int fila, int columna, Direccion 
 {
     int largo = barco.obtenerLargo();
     // int deltaFila = (direccion == Direccion::Vertical) ? 1 : 0;
-    int deltaFila;
-    int deltaColumna;
+    int deltaFila = 0;
+    int deltaColumna = 0;
     if (direccion == Direccion::Derecha)
     {
-        deltaFila = 0;
         deltaColumna = 1;
     }
     else if (direccion == Direccion::Izquierda)
     {
-        deltaFila = 0;
         deltaColumna = -1;
     }
     else if (direccion == Direccion::Arriba)
     {
         deltaFila = -1;
-        deltaColumna = 0;
     }
-    else
+    else if (direccion == Direccion::Abajo)
     {
         deltaFila = 1;
-        deltaColumna = 0;
     }
 
     for (int i = 0; i < barco.obtenerLargo(); ++i)

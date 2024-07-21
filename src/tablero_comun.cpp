@@ -158,30 +158,26 @@ bool TableroComun::esPosicionValida(int fila, int columna)
  */
 bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
 {
-    int largo = barco.obtenerLargo();
-    int filaFin;
-    int columnaFin;
+    int largo = barco.obtenerLargo() -1;
+    int filaFin = fila;
+    int columnaFin = columna;
+
+    switch (direccion)
+    {
+    case Direccion::Derecha:
+        columnaFin += largo;
+        break;
+    case Direccion::Izquierda:
+        columnaFin -= largo;
+        break;
+    case Direccion::Arriba:
+        filaFin -= largo;
+        break;
+    case Direccion::Abajo:
+        filaFin += largo;
+        break;
+    }
     
-    if (direccion == Direccion::Derecha)
-    {
-        filaFin = fila;
-        columnaFin = columna + largo -1;
-    }
-    else if (direccion == Direccion::Izquierda)
-    {
-        filaFin = fila;
-        columnaFin = columna - largo +1;
-    }
-    else if (direccion == Direccion::Arriba)
-    {
-        filaFin = fila - largo+1;
-        columnaFin = columna ;
-    }
-    else if (direccion == Direccion::Abajo)
-    {
-        filaFin = fila + largo-1;
-        columnaFin = columna;
-    }
     // Verificar si las coordenadas están dentro del tablero
     if (!this->esPosicionValida(fila, columna) || !this->esPosicionValida(filaFin, columnaFin))
     {
