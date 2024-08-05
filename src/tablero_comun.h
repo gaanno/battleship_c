@@ -30,15 +30,15 @@ public:
 
 protected:
     bool esPosicionValida(int fila, int columna);
-    bool esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion);
+    bool esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion, bool sobreponerseASiMismo = false);
     
     char tablero[config::tamanoOceano][config::tamanoOceano];
+    Barco* obtenerBarcoSegunLetra(char letra);
 
     std::vector<std::unique_ptr<Barco>> barcos;
     std::vector<std::string> barcosEliminados;
 
     void aumentarDisparosRealizados();
-    bool sonRanurasVacias(int fila, int columna, int filaFin, int columnaFin);
 
 private:
     int disparosRealizados = 0;

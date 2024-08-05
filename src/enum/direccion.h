@@ -10,7 +10,8 @@ enum class Direccion
     Izquierda,
     Derecha,
     Arriba,
-    Abajo
+    Abajo,
+    Ninguna
 };
 
 #endif

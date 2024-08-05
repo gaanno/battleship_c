@@ -14,13 +14,21 @@ public:
     TableroRegistro();
     int obtenerMejoresDisparos();
 
-        void marcarDisparo(int fila, int columna, char impacto);
+    void marcarDisparo(int fila, int columna, char impacto);
 
     void imprimirTableroCalor();
 
 private:
-    void calcularTableroCalor();
+    char letraBarcoImpactado;
+    int coordenadaImpacto[2];
     int tableroCalor[config::tamanoOceano][config::tamanoOceano];
+    int ultimaMarca[2];
+    bool modoBusqueda = false;
+    Direccion direccionBarcoImpactado =Direccion::Ninguna;
+
+    void calcularTableroCalor();
+    void limpiarTableroCalor();
+
 
 };
 #endif

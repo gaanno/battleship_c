@@ -37,21 +37,18 @@ char TableroGuerra::disparar(int fila, int columna)
     }
 
     this->marcarDisparo(fila, columna, config::letraImpacto);
-    this->barcos.erase(
-        std::remove_if(
-            this->barcos.begin(),
-            this->barcos.end(),
-            [this, letra](const std::unique_ptr<Barco> &barco)
-            {
-                if (barco->obtenerLetra() == letra && !barco->sobreviveAlDisparo())
-                {
-                    this->barcosEliminados.push_back(barco->obtenerNombre());
-                    return true;
-                }
-                return false;
-            }),
-        this->barcos.end());
 
+    for (auto it = this->barcos.begin(); it != this->barcos.end(); ++it)
+    {
+        const std::unique_ptr<Barco> &barco = *it;
+
+        if (barco->obtenerLetra() == letra && !barco->sobreviveAlDisparo())
+        {
+            this->barcosEliminados.push_back(barco->obtenerNombre());
+            it = this->barcos.erase(it);
+            --it;
+        }
+    }
     return config::mostrarLetraImpactoBarco ? letra : config::letraImpacto;
 }
 

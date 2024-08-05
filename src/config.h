@@ -10,7 +10,7 @@ namespace config
     constexpr char letraImpacto = 'X';
     constexpr char letraAgua = 'W';
     
-    constexpr bool mostrarLetraImpactoBarco = false;
+    constexpr bool mostrarLetraImpactoBarco = true;
     constexpr bool mostrarMensajeBarcoExplotado = false;
     constexpr bool mostrarCoordenadasTablero = false;
     

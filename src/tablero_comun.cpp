@@ -154,11 +154,12 @@ bool TableroComun::esPosicionValida(int fila, int columna)
  * @param fila Fila de inicio
  * @param columna Columna de inicio
  * @param direccion Dirección del barco
+ * @param sobreponerseASiMismo Si se permite que el barco se sobreponga sobre la misma letra
  * @return true si es posible, false si no
  */
-bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion)
+bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Direccion direccion, bool sobreponerseASiMismo)
 {
-    int largo = barco.obtenerLargo() -1;
+    int largo = barco.obtenerLargo() - 1;
     int filaFin = fila;
     int columnaFin = columna;
 
@@ -177,25 +178,13 @@ bool TableroComun::esPosibleColocarBarco(Barco &barco, int fila, int columna, Di
         filaFin += largo;
         break;
     }
-    
+
     // Verificar si las coordenadas están dentro del tablero
     if (!this->esPosicionValida(fila, columna) || !this->esPosicionValida(filaFin, columnaFin))
     {
         return false;
     }
 
-    return this->sonRanurasVacias(fila, columna, filaFin, columnaFin);
-}
-
-/**
- * @brief Verifica si las ranuras están vacías
- * @param fila Fila de inicio
- * @param columna Columna de inicio
- * @param filaFin Fila final
- * @param columnaFin Columna final
- */
-bool TableroComun::sonRanurasVacias(int fila, int columna, int filaFin, int columnaFin)
-{
     if (filaFin < fila)
     {
         std::swap(fila, filaFin);
@@ -204,17 +193,39 @@ bool TableroComun::sonRanurasVacias(int fila, int columna, int filaFin, int colu
     {
         std::swap(columna, columnaFin);
     }
-    return std::all_of(
-        std::begin(this->tablero) + fila,
-        std::begin(this->tablero) + filaFin + 1,
-        [this, columna, columnaFin](const auto &fila)
+
+    // Verificar si las posiciones están vacías
+    for (int i = fila; i <= filaFin; ++i)
+    {
+        for (int j = columna; j <= columnaFin; ++j)
         {
-            return std::all_of(
-                std::begin(fila) + columna,
-                std::begin(fila) + columnaFin + 1,
-                [this](const auto &celda)
-                {
-                    return celda == config::letraRelleno;
-                });
-        });
+            if(sobreponerseASiMismo && this->tablero[i][j] == barco.obtenerLetra())
+            {
+                continue;
+            }
+            else if (this->tablero[i][j] != config::letraRelleno || this->tablero[i][j] == config::letraAgua)
+            {
+                return false;
+            }
+           
+        }
+    }
+    return true;
+}
+
+/**
+ * @brief Obtiene el barco según la letra
+ * @param letra Letra del barco
+ * @return Puntero al barco si se encuentra, nullptr en caso contrario
+ */
+Barco* TableroComun::obtenerBarcoSegunLetra(char letra)
+{
+    for (const auto &barco : this->barcos)
+    {
+        if (barco->obtenerLetra() == letra)
+        {
+            return barco.get();
+        }
+    }
+    return nullptr;
 }

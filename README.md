@@ -11,6 +11,9 @@ Proyecto para recordar lo básico y no tan básico de c++ usando clases
 
 
 # TO DO
+- mejorar mapa calor añadiendo el seguimiento del impactoo y sugerencias
+
+
 - Ajustar formato de coordenadas a letra, num
 - Hebras
 - Implementar socket
